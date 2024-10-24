@@ -182,7 +182,8 @@ services:
     image: base-jupyter:latest
     container_name: jupyter
     ports:
-      - 8888:8888
+      - 8889:8888  # Cambiado a 8889 para evitar el conflicto 
+      #- 8888:8888
       - 4040:4040
     environment:
       - JUPYTER_ENABLE_LAB=yes
