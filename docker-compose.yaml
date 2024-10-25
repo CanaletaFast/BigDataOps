@@ -238,6 +238,7 @@ services:
       - '10002:10002'
     volumes:
       - ./hive/warehouse:/opt/hive/data/warehouse
+    user: root  # Añade esta línea para ejecutar como root
 
   huedb:
     image: postgres:16

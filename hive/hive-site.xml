@@ -52,9 +52,13 @@
         <name>hive.execution.engine</name>
         <value>tez</value>
     </property>
-    <property>
+    <!-- <property>
         <name>metastore.warehouse.dir</name>
         <value>/opt/hive/data/warehouse</value>
+    </property> -->
+    <property> <!--He añadido esto para evitar problemas de permisos-->
+        <name>hive.metastore.warehouse.dir</name>
+        <value>/user/hive/warehouse</value>
     </property>
     <property>
         <name>metastore.metastore.event.db.notification.api.auth</name>
