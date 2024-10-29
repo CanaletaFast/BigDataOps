@@ -22,6 +22,27 @@ jupyter:
 
 ---
 
+### 🖥️ Configuración de Hue en `docker-compose.yaml`:
+- Añadido `POSTGRES_USER` en la sección de environment de Hue: Define el usuario de PostgreSQL usado en la base de datos para evitar problemas de autenticación.
+- Añadido comando de inicialización: Asegurar que Hue espere a que PostgreSQL esté listo, ejecute migraciones de Django para crear las tablas necesarias y luego inicie el servidor.
+```yaml
+hue:
+    image: gethue/hue:latest
+    environment:
+      SERVICE_PRECONDITION: "namenode:9870 datanode1:9864 datanode2:9864 resourcemanager:8088 metastore:9083"
+      POSTGRES_USER: 'hue'  # Define el usuario de PostgreSQL usado en la base de datos
+    ports:
+      - "9999:8888"
+    volumes:
+      - ./hue/hue.ini:/usr/share/hue/desktop/conf/hue-overrides.ini
+    depends_on:
+      - huedb
+    # Espera 10 segundos para dar tiempo a que se inicie PostgreSQL, ejecuta las migraciones de Django para crear las tablas necesarias en la base de datos, y luego inicia el servidor de Hue.
+    command: /bin/bash -c "sleep 10 && /usr/share/hue/build/env/bin/hue migrate && /usr/share/hue/build/env/bin/hue runserver 0.0.0.0:8888"
+```
+
+---
+
 ## 🔑 Cambios Esenciales en el Sistema Docker para la Configuración Exitosa de Hive y PostgreSQL (Guardar de HDFS a local)
 
 ### 1. 🛠 Configuración del fichero `entrypoint.sh` para HDFS (`core-site.xml`):
